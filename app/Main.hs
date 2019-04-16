@@ -5,6 +5,7 @@ module Main where
 import System.IO
 import Text.HTML.TagSoup
 
+parseForChapterContents :: [Tag String] -> [Tag String]
 parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">")
 
 main :: IO ()
