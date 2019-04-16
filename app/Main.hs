@@ -5,9 +5,11 @@ module Main where
 import System.IO
 import Text.HTML.TagSoup
 
+parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">")
+
 main :: IO ()
 main = do
     file <- readFile "thing.html"
-    let chapter_contents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">") . parseTags $ file
+    let chapter_contents = parseForChapterContents . parseTags $ file
 
     print chapter_contents
