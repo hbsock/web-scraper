@@ -4,6 +4,7 @@ module Main where
 -- import Parser
 import System.IO
 import Text.HTML.TagSoup
+import Data.Maybe (catMaybes)
 
 parseForChapterContents :: [Tag String] -> [Tag String]
 parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">")
@@ -11,6 +12,8 @@ parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=
 main :: IO ()
 main = do
     file <- readFile "thing.html"
-    let chapter_contents = parseForChapterContents . parseTags $ file
+    let chapter_contents = catMaybes . map maybeTagText . parseForChapterContents . parseTags $ file
 
+    writeFile "out.txt" $ unlines chapter_contents
+    
     print chapter_contents
