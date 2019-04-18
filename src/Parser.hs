@@ -5,9 +5,10 @@ module Parser
 
 import Text.HTML.TagSoup
 import Data.Maybe (catMaybes)
+import qualified Data.Text.Lazy as T
 
-parseForChapterContents :: [Tag String] -> [Tag String]
+parseForChapterContents :: [Tag T.Text] -> [Tag T.Text]
 parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">")
 
-parseBoxNovelHTML :: String -> [String]
-parseBoxNovelHTML = catMaybes . map maybeTagText . parseForChapterContents . parseTags
+parseBoxNovelHTML :: T.Text -> T.Text
+parseBoxNovelHTML = T.unlines . catMaybes . map maybeTagText . parseForChapterContents . parseTags
