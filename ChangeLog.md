@@ -1,3 +1,3 @@
-# Changelog for rest-api-client
+# Changelog for web-scraper
 
 ## Unreleased changes

@@ -1,5 +1,5 @@
 .stack-work/
-rest-api-client.cabal
+web-scraper.cabal
 *~
 
 dist
