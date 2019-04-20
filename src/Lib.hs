@@ -18,7 +18,7 @@ import Control.Monad.IO.Class (MonadIO)
 
 someFunc :: IO ()
 someFunc = do
-    response <- httpLBS "https://boxnovel.com/novel/chaotic-sword-god/chapter-2038"
+    response <- httpLBS "https://en.wikipedia.org/wiki/Anime"
 
     putStrLn $ "Status code was: " ++ 
                 show (getResponseStatusCode response)

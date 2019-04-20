@@ -12,7 +12,7 @@ parseForChapterContents :: [Tag T.Text] -> [Tag T.Text]
 parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">")
 
 parseBoxNovelHTML :: T.Text -> T.Text
-parseBoxNovelHTML = T.unlines . catMaybes . map maybeTagText . parseForChapterContents . parseTags
+parseBoxNovelHTML = T.strip . T.unlines . catMaybes . map maybeTagText . parseForChapterContents . parseTags
 
 parseMain :: IO ()
 parseMain = do
