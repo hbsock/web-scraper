@@ -5,8 +5,8 @@ module Parser
 
 import Text.HTML.TagSoup
 import Data.Maybe (catMaybes)
-import qualified Data.Text.Lazy as T
-import qualified Data.Text.Lazy.IO as I
+import qualified Data.Text as T
+import qualified Data.Text.IO as I
 
 parseForChapterContents :: [Tag T.Text] -> [Tag T.Text]
 parseForChapterContents = takeWhile (~/= "</div>") . dropWhile (~/= "<div class=\"text-left\">")
