@@ -7,4 +7,4 @@ import System.IO
 
 
 main :: IO ()
-main = parseMain
+main = someFunc

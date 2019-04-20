@@ -18,9 +18,9 @@ import Control.Monad.IO.Class (MonadIO)
 
 someFunc :: IO ()
 someFunc = do
-    response <- httpLBS "https://en.wikipedia.org/wiki/Anime"
+    response <- httpLBS =<< parseRequest ("https://en.wikipedia.org/wiki/" ++ "Anime")
 
     putStrLn $ "Status code was: " ++ 
                 show (getResponseStatusCode response)
     print $ getResponseHeader "Content-Type" response
-    L8.putStrLn $ getResponseBody response
+    L8.writeFile "wiki.html" $ getResponseBody response
