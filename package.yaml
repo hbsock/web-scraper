@@ -25,6 +25,7 @@ dependencies:
 - bytestring
 - tagsoup
 - text
+- random
 
 library:
   source-dirs: src
