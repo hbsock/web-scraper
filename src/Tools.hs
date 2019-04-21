@@ -2,7 +2,8 @@
 
 module Tools
     ( 
-      getWebsiteWithDelay
+        getWebsite,
+        getWebsiteWithDelay
     ) where
 
 
@@ -17,12 +18,16 @@ getRandomNumInRange :: Int -> Int -> IO Int
 getRandomNumInRange lo hi = getStdRandom (randomR (lo, hi))
 
 
+getWebsite :: String -> IO L8.ByteString
+getWebsite url = do
+    response <- httpLBS =<< parseRequest url
+    return $ getResponseBody response
+    
+
 getWebsiteWithDelay :: String -> IO L8.ByteString
 getWebsiteWithDelay url = do
-    rand_delay_in_microsec <- getRandomNumInRange 1 100000
+    rand_delay_in_microsec <- getRandomNumInRange 1000 100000
     threadDelay rand_delay_in_microsec
     putStrLn $ "Delayed for " ++ show (rand_delay_in_microsec `div` 1000) ++ " miliseconds."
-    
-    response <- httpLBS =<< parseRequest url
 
-    return $ getResponseBody response
+    getWebsite url
