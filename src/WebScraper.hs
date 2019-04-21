@@ -6,19 +6,24 @@ module WebScraper
 
 import Parser (parseChaoticSwordGodHTML)
 import Tools (getWebsiteWithDelay)
+import qualified Data.Text.Lazy as T
 import qualified Data.Text.Lazy.IO as I
 import Data.Text.Lazy.Encoding (decodeUtf8)
 import System.Directory (createDirectoryIfMissing)
 
 
-scrapeChaoticSwordGodNovel :: String -> String -> IO ()
-scrapeChaoticSwordGodNovel url output_file = do
+scrapeNovel :: String -> String -> (T.Text -> T.Text) -> IO ()
+scrapeNovel url output_file parse_func = do
     contents <- getWebsiteWithDelay url
-    let parsed_contents = parseChaoticSwordGodHTML $ decodeUtf8 contents
+    let parsed_contents = parse_func $ decodeUtf8 contents
     
     putStrLn $ "Writing file: " ++ output_file
     I.writeFile output_file $ parsed_contents
 
+
+scrapeChaoticSwordGodNovel :: String -> String -> IO ()
+scrapeChaoticSwordGodNovel url output_file = do
+    scrapeNovel url output_file parseChaoticSwordGodHTML
 
 scrapeMain :: [Int] -> FilePath -> FilePath -> IO ()
 scrapeMain chap_nums output_dir base_url = do
