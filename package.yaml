@@ -26,6 +26,7 @@ dependencies:
 - tagsoup
 - text
 - random
+- directory
 
 library:
   source-dirs: src
