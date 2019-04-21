@@ -4,7 +4,6 @@ module WebScraper
     ) where
 
 
-import Parser (parseChaoticSwordGodHTML)
 import Tools (getWebsiteWithDelay)
 import qualified Data.Text.Lazy as T
 import qualified Data.Text.Lazy.IO as I
