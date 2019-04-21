@@ -14,4 +14,6 @@ scrapeChaoticSwordGodNovel :: String -> String -> IO ()
 scrapeChaoticSwordGodNovel url output_file = do
     contents <- getWebsiteWithDelay url
     let parsed_contents = parseChaoticSwordGodHTML $ decodeUtf8 contents
+    
+    putStrLn $ "Writing file: " ++ output_file
     I.writeFile output_file $ parsed_contents

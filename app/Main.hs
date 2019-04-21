@@ -16,7 +16,7 @@ scrapeMain = do
     createDirectoryIfMissing True output_dir
     let output_name_and_urls = zip urls output_file_names 
     
-    return ()
+    mapM_ (\(url, out) -> scrapeChaoticSwordGodNovel url out) output_name_and_urls
 
 
 main :: IO ()
