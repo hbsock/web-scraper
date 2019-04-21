@@ -4,10 +4,8 @@ module Main where
 import WebScraper (scrapeChaoticSwordGodNovel)
 import System.Directory (createDirectoryIfMissing)
 
-scrapeMain :: IO ()
-scrapeMain = do
-    let chap_nums = [1..3]
-    let output_dir = "output/"
+scrapeMain :: [Int] -> FilePath -> IO ()
+scrapeMain chap_nums output_dir = do
 
     let chap_strs = map (\n -> "chapter-" ++ (show n)) chap_nums
     let output_file_names = map (\t -> output_dir ++ t ++ ".txt") chap_strs
@@ -21,7 +19,8 @@ scrapeMain = do
 
 main :: IO ()
 main = do
-    scrapeMain
+    scrapeMain [1..10] "output/chaotic-sword-god/"
+
 {--
     mapM_ 
         (\(url, output_file) -> createDirectoryIfMissing url output_file) 
