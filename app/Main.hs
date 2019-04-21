@@ -2,8 +2,7 @@ module Main where
 
 
 import Parser (parseChaoticSwordGodHTML)
-import Lib (getWebsiteWithDelay)
-import System.IO
+import Tools (getWebsiteWithDelay)
 import qualified Data.Text.Lazy.IO as I
 import Data.Text.Lazy.Encoding (decodeUtf8)
 
