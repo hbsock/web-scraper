@@ -20,12 +20,12 @@ scrapeChaoticSwordGodNovel url output_file = do
     I.writeFile output_file $ parsed_contents
 
 
-scrapeMain :: [Int] -> FilePath -> IO ()
-scrapeMain chap_nums output_dir = do
+scrapeMain :: [Int] -> FilePath -> FilePath -> IO ()
+scrapeMain chap_nums output_dir base_url = do
 
     let chap_strs = map (\n -> "chapter-" ++ (show n)) chap_nums
     let output_file_names = map (\t -> output_dir ++ t ++ ".txt") chap_strs
-    let urls = map (\t -> "https://boxnovel.com/novel/chaotic-sword-god/" ++ t) chap_strs
+    let urls = map (\t -> base_url ++ t) chap_strs
 
     createDirectoryIfMissing True output_dir
     let output_name_and_urls = zip urls output_file_names 
