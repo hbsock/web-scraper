@@ -21,12 +21,8 @@ scrapeNovel url output_file parse_func = do
     I.writeFile output_file $ parsed_contents
 
 
-scrapeChaoticSwordGodNovel :: String -> String -> IO ()
-scrapeChaoticSwordGodNovel url output_file = do
-    scrapeNovel url output_file parseChaoticSwordGodHTML
-
-scrapeMain :: [Int] -> FilePath -> FilePath -> IO ()
-scrapeMain chap_nums output_dir base_url = do
+scrapeMain :: [Int] -> FilePath -> FilePath -> (T.Text -> T.Text) -> IO ()
+scrapeMain chap_nums output_dir base_url parse_func = do
 
     let chap_strs = map (\n -> "chapter-" ++ (show n)) chap_nums
     let output_file_names = map (\t -> output_dir ++ t ++ ".txt") chap_strs
@@ -35,4 +31,4 @@ scrapeMain chap_nums output_dir base_url = do
     createDirectoryIfMissing True output_dir
     let output_name_and_urls = zip urls output_file_names 
     
-    mapM_ (\(url, out) -> scrapeChaoticSwordGodNovel url out) output_name_and_urls
+    mapM_ (\(url, out) -> scrapeNovel url out parse_func) output_name_and_urls
