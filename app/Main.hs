@@ -18,16 +18,12 @@ data WebScraperException =
 instance Exception WebScraperException
 
 
-testExceptions :: IO ()
-testExceptions = do
-    let low = 10
-    let high = 5
+testExceptions :: Integer -> Integer -> IO ()
+testExceptions low high = do
     case compare low high of
         LT -> putStrLn "Low is less than high, that is okay."
         EQ -> putStrLn "Low is equal to high, that is okay."
-        GT -> throw ( 
-                InvalidNumberRange 
-                (T.pack "The lower number is higher than the high number."))
+        GT -> throw ( InvalidNumberRange (T.pack "The lower number is higher than the high number."))
         
 
 
@@ -40,7 +36,9 @@ testParsing = do
 
 main :: IO ()
 main = do
-    testExceptions
+    testExceptions 5 10
+    testExceptions 1 1
+    testExceptions 10 5
 {--
     scrapeMain  [1..1500] 
                 "output/the-kings-avatar/" 
