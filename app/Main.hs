@@ -24,11 +24,11 @@ data Inputs = Inputs {
 
 isInputInvalid :: Inputs -> Maybe WebScraperException
 isInputInvalid inputs = 
-    testLowAndHigh (low inputs) (high inputs)
+    isNumberRangeInvalid (low inputs) (high inputs)
 
 
-testLowAndHigh :: Integer -> Integer -> Maybe WebScraperException
-testLowAndHigh low high = do
+isNumberRangeInvalid :: Integer -> Integer -> Maybe WebScraperException
+isNumberRangeInvalid low high = do
     case compare low high of
         LT -> Nothing
         EQ -> Nothing
@@ -40,7 +40,6 @@ testParsing :: IO ()
 testParsing = do
     content <- I.readFile "the-kings-avatar-example.html"
     I.writeFile "tmp.txt" $ parseBoxnovel content
-
     
 
 
