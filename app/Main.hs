@@ -4,7 +4,6 @@ module Main where
 
 
 
-import Control.Exception
 import Data.Typeable (Typeable)
 import qualified Data.Text.Lazy.IO as I
 import qualified Data.Text as T
@@ -17,17 +16,16 @@ data WebScraperException =
     deriving (Show, Typeable)
 
 
-instance Exception WebScraperException
-
-
 data Inputs = Inputs {
     low :: Integer,
     high :: Integer
 } deriving (Eq, Ord, Show)
 
 
-validateInputs :: Inputs -> Maybe WebScraperException
-validateInputs inputs = testLowAndHigh (low inputs) (high inputs)
+isInputInvalid :: Inputs -> Maybe WebScraperException
+isInputInvalid inputs = 
+    testLowAndHigh (low inputs) (high inputs)
+
 
 testLowAndHigh :: Integer -> Integer -> Maybe WebScraperException
 testLowAndHigh low high = do
@@ -53,7 +51,7 @@ main = do
         high = 10
     }
 
-    case validateInputs inputs of
+    case isInputInvalid inputs of
         Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)
         Nothing -> putStrLn "No input errors"
 {--
