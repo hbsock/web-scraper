@@ -3,37 +3,50 @@
 module Main where
 
 
-
+import Control.Applicative
 import Data.Typeable (Typeable)
 import qualified Data.Text.Lazy.IO as I
 import qualified Data.Text as T
+import System.FilePath (isValid)
 
 import WebScraper (scrapeMain)
 import Parser
 
 data WebScraperException = 
-    InvalidNumberRange !T.Text
+    InvalidNumberRange !T.Text |
+    InvalidOutputDirPath !T.Text
     deriving (Show, Typeable)
 
 
 data Inputs = Inputs {
     low :: Integer,
-    high :: Integer
+    high :: Integer,
+    output_dir :: FilePath
+
 } deriving (Eq, Ord, Show)
 
 
 isInputInvalid :: Inputs -> Maybe WebScraperException
 isInputInvalid inputs = 
-    isNumberRangeInvalid (low inputs) (high inputs)
+        isNumberRangeInvalid (low inputs) (high inputs) 
+    <|> isOutputDirPathInvalid (output_dir inputs)
 
 
 isNumberRangeInvalid :: Integer -> Integer -> Maybe WebScraperException
-isNumberRangeInvalid low high = do
+isNumberRangeInvalid low high =
     case compare low high of
         LT -> Nothing
         EQ -> Nothing
         GT -> Just $ InvalidNumberRange "The lower number is higher than the high number."
         
+
+isOutputDirPathInvalid :: FilePath -> Maybe WebScraperException
+isOutputDirPathInvalid path = 
+    case isValid path of
+        True -> Nothing
+        False -> Just $ 
+            InvalidOutputDirPath $ 
+                T.pack ("The output directory " <> show path <> "is invalid")
 
 
 testParsing :: IO ()
@@ -46,8 +59,9 @@ testParsing = do
 main :: IO ()
 main = do
     let inputs = Inputs {
-        low = 11,
-        high = 10
+        low = 1,
+        high = 10,
+        output_dir = "outputs/the-first-hunter/"
     }
 
     case isInputInvalid inputs of
