@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 
@@ -24,16 +26,15 @@ data Inputs = Inputs {
 } deriving (Eq, Ord, Show)
 
 
-validateInputs :: Inputs -> IO ()
-validateInputs inputs = do
-    testLowAndHigh (low inputs) (high inputs)
+validateInputs :: Inputs -> Maybe WebScraperException
+validateInputs inputs = testLowAndHigh (low inputs) (high inputs)
 
-testLowAndHigh :: Integer -> Integer -> IO ()
+testLowAndHigh :: Integer -> Integer -> Maybe WebScraperException
 testLowAndHigh low high = do
     case compare low high of
-        LT -> putStrLn "Low is less than high, that is okay."
-        EQ -> putStrLn "Low is equal to high, that is okay."
-        GT -> throw ( InvalidNumberRange (T.pack "The lower number is higher than the high number."))
+        LT -> Nothing
+        EQ -> Nothing
+        GT -> Just $ InvalidNumberRange "The lower number is higher than the high number."
         
 
 
@@ -48,14 +49,15 @@ testParsing = do
 main :: IO ()
 main = do
     let inputs = Inputs {
-        low = 1,
+        low = 11,
         high = 10
     }
 
-    validateInputs inputs
-
+    case validateInputs inputs of
+        Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)
+        Nothing -> putStrLn "No input errors"
 {--
-    scrapeMain  [1..1500] 
+            scrapeMain  [1..1] 
                 "output/the-kings-avatar/" 
                 "https://boxnovel.com/novel/the-kings-avatar/"
                 parseBoxnovel
