@@ -24,8 +24,8 @@ data Inputs = Inputs {
 } deriving (Eq, Ord, Show)
 
 
-testInputs :: Inputs -> IO ()
-testInputs inputs = do
+validateInputs :: Inputs -> IO ()
+validateInputs inputs = do
     testLowAndHigh (low inputs) (high inputs)
 
 testLowAndHigh :: Integer -> Integer -> IO ()
@@ -52,7 +52,7 @@ main = do
         high = 10
     }
 
-    testInputs inputs
+    validateInputs inputs
 
 {--
     scrapeMain  [1..1500] 
