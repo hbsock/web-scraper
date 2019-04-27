@@ -1,6 +1,7 @@
 module CmdParser
     (
         Inputs (..),
+        InputError,
         isInputInvalid
     ) where
 
@@ -12,7 +13,7 @@ import System.FilePath (isValid)
 import Network.URI (isURI)
 
 
-data WebScraperException = 
+data InputError = 
     InvalidNumberRange !T.Text 
     | InvalidOutputDirPath !T.Text 
     | InvalidBaseURL !T.Text
@@ -29,14 +30,14 @@ data Inputs = Inputs {
 } deriving (Eq, Ord, Show)
 
 
-isInputInvalid :: Inputs -> Maybe WebScraperException
+isInputInvalid :: Inputs -> Maybe InputError
 isInputInvalid inputs = 
         isNumberRangeInvalid (low inputs) (high inputs) 
     <|> isOutputDirPathInvalid (output_dir inputs)
     <|> isBaseURLinvalid (base_url inputs)
 
 
-isNumberRangeInvalid :: Int -> Int -> Maybe WebScraperException
+isNumberRangeInvalid :: Int -> Int -> Maybe InputError
 isNumberRangeInvalid low high =
     case compare low high of
         LT -> Nothing
@@ -46,7 +47,7 @@ isNumberRangeInvalid low high =
             "is higher than the high number" <> (show high)
         
 
-isOutputDirPathInvalid :: FilePath -> Maybe WebScraperException
+isOutputDirPathInvalid :: FilePath -> Maybe InputError
 isOutputDirPathInvalid path = 
     case isValid path of
         True -> Nothing
@@ -55,7 +56,7 @@ isOutputDirPathInvalid path =
                 T.pack ("The output directory " <> show path <> "is invalid")
 
 
-isBaseURLinvalid :: String -> Maybe WebScraperException
+isBaseURLinvalid :: String -> Maybe InputError
 isBaseURLinvalid url = 
     case isURI url of
         True -> Nothing
