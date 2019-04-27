@@ -41,7 +41,9 @@ isNumberRangeInvalid low high =
     case compare low high of
         LT -> Nothing
         EQ -> Nothing
-        GT -> Just $ InvalidNumberRange "The lower number is higher than the high number."
+        GT -> Just $ InvalidNumberRange $ T.pack $ 
+            "The lower number" <> (show low) <> 
+            "is higher than the high number" <> (show high)
         
 
 isOutputDirPathInvalid :: FilePath -> Maybe WebScraperException
