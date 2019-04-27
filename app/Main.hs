@@ -21,6 +21,7 @@ data WebScraperException =
 
 
 data Inputs = Inputs {
+    is_complete :: Bool,
     low :: Int,
     high :: Int,
     output_dir :: FilePath,
@@ -73,16 +74,18 @@ testParsing inputFile outputFile = do
 main :: IO ()
 main = do
     let inputs = Inputs {
-        low = 3,
-        high = 161,
-        output_dir = "output/the-first-hunter/",
-        base_url = "https://boxnovel.com/novel/the-first-hunter/"
+        is_complete = True,
+        low = 1,
+        high = 1315,
+        output_dir = "output/a-will-eternal/",
+        base_url = "https://boxnovel.com/novel/a-will-eternal/"
     }
 
     case isInputInvalid inputs of
         Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)
         Nothing -> 
             scrapeMain 
+                (is_complete inputs)
                 (low inputs)
                 (high inputs)
                 (output_dir inputs) 

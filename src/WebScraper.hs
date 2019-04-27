@@ -21,11 +21,19 @@ scrapeAndParseURL url output_file parse_func = do
     I.writeFile output_file $ parsed_contents
 
 
-scrapeMain :: Int -> Int -> FilePath -> String -> (T.Text -> T.Text) -> IO ()
-scrapeMain low high output_dir base_url parse_func = do
+getChapterStrings :: Int -> Int -> Bool -> [String]
+getChapterStrings low high is_complete = map 
+    (\n -> "/chapter-" ++ (show n) ++
+        if n == high && is_complete then
+            "-end"
+        else
+            "") 
+    [low..high]
 
-    let chap_nums = [low..high]
-    let chap_strs = map (\n -> "/chapter-" ++ (show n)) chap_nums
+scrapeMain :: Bool -> Int -> Int -> FilePath -> String -> (T.Text -> T.Text) -> IO ()
+scrapeMain is_complete low high output_dir base_url parse_func = do
+
+    let chap_strs = getChapterStrings low high is_complete
     let output_file_names = map (\t -> output_dir ++ t ++ ".txt") chap_strs
     let urls = map (\t -> base_url ++ t) chap_strs
     let output_name_and_urls = zip urls output_file_names 
