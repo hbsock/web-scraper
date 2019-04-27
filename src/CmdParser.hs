@@ -15,7 +15,7 @@ import Data.Typeable (Typeable)
 import qualified Data.Text as T
 import System.FilePath (isValid)
 import Network.URI (isURI)
-import System.Console.CmdArgs (Data, cmdArgs)
+import System.Console.CmdArgs
 
 
 data InputError = 
@@ -76,6 +76,7 @@ defaultInputs = Inputs {
         output_dir = "",
         base_url = ""
     }
+    &= summary "This is the list of options for this web scraper."
 
 
 getInputsFromCmdLine :: IO Inputs

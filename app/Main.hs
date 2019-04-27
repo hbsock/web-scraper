@@ -17,6 +17,7 @@ testParsing inputFile outputFile = do
 
 main :: IO ()
 main = do
+{--
     let other_inputs = Inputs {
         is_complete = True,
         low = 1,
@@ -24,12 +25,13 @@ main = do
         output_dir = "output/a-will-eternal/",
         base_url = "https://boxnovel.com/novel/a-will-eternal/"
     }
+--}
 
     inputs <- cmdArgs defaultInputs
-    print inputs
 
     case isInputInvalid inputs of
-        Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)
+        Just err -> putStrLn ("Invalid input!\n\n" <> 
+            show err <> "\n" <> show inputs)
         Nothing -> 
             print inputs
 {--
