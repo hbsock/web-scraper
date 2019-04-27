@@ -82,7 +82,9 @@ main = do
     case isInputInvalid inputs of
         Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)
         Nothing -> 
-            scrapeMain [(low inputs)..(high inputs)] 
+            scrapeMain 
+                (low inputs)
+                (high inputs)
                 (output_dir inputs) 
                 (base_url inputs)
                 parseBoxnovel

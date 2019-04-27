@@ -1,6 +1,7 @@
 module WebScraper 
     (
-        scrapeMain
+        scrapeMain,
+        scrapeAndParseURL
     ) where
 
 
@@ -20,9 +21,10 @@ scrapeAndParseURL url output_file parse_func = do
     I.writeFile output_file $ parsed_contents
 
 
-scrapeMain :: [Int] -> FilePath -> String -> (T.Text -> T.Text) -> IO ()
-scrapeMain chap_nums output_dir base_url parse_func = do
+scrapeMain :: Int -> Int -> FilePath -> String -> (T.Text -> T.Text) -> IO ()
+scrapeMain low high output_dir base_url parse_func = do
 
+    let chap_nums = [low..high]
     let chap_strs = map (\n -> "/chapter-" ++ (show n)) chap_nums
     let output_file_names = map (\t -> output_dir ++ t ++ ".txt") chap_strs
     let urls = map (\t -> base_url ++ t) chap_strs
@@ -30,5 +32,6 @@ scrapeMain chap_nums output_dir base_url parse_func = do
 
     createDirectoryIfMissing True output_dir
     
-    mapM_ (\(url, out) -> scrapeAndParseURL url out parse_func) 
+    mapM_ 
+        (\(url, out) -> scrapeAndParseURL url out parse_func) 
         output_name_and_urls
