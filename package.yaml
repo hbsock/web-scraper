@@ -1,7 +1,7 @@
 name:                web-scraper
 version:             0.1.0.0
 github:              "hbsock/web-scraper"
-license:             BSD3
+license:             GPL-3
 author:              "Hanbin Sock"
 maintainer:          "hbsock@gmail.com"
 copyright:           "2019 Hanbin Sock"
