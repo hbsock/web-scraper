@@ -23,7 +23,7 @@ scrapeNovel url output_file parse_func = do
 scrapeMain :: [Int] -> FilePath -> String -> (T.Text -> T.Text) -> IO ()
 scrapeMain chap_nums output_dir base_url parse_func = do
 
-    let chap_strs = map (\n -> "chapter-" ++ (show n)) chap_nums
+    let chap_strs = map (\n -> "/chapter-" ++ (show n)) chap_nums
     let output_file_names = map (\t -> output_dir ++ t ++ ".txt") chap_strs
     let urls = map (\t -> base_url ++ t) chap_strs
 

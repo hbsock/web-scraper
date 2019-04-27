@@ -21,8 +21,8 @@ data WebScraperException =
 
 
 data Inputs = Inputs {
-    low :: Integer,
-    high :: Integer,
+    low :: Int,
+    high :: Int,
     output_dir :: FilePath,
     base_url :: String
 
@@ -36,7 +36,7 @@ isInputInvalid inputs =
     <|> isBaseURLinvalid (base_url inputs)
 
 
-isNumberRangeInvalid :: Integer -> Integer -> Maybe WebScraperException
+isNumberRangeInvalid :: Int -> Int -> Maybe WebScraperException
 isNumberRangeInvalid low high =
     case compare low high of
         LT -> Nothing
@@ -63,28 +63,32 @@ isBaseURLinvalid url =
 
 
 
-testParsing :: IO ()
-testParsing = do
-    content <- I.readFile "the-kings-avatar-example.html"
-    I.writeFile "tmp.txt" $ parseBoxnovel content
+testParsing :: FilePath -> FilePath -> IO ()
+testParsing inputFile outputFile = do
+    content <- I.readFile inputFile
+    I.writeFile outputFile $ parseBoxnovel content
     
 
 
 main :: IO ()
 main = do
     let inputs = Inputs {
-        low = 1,
-        high = 10,
-        output_dir = "outputs/the-first-hunter/",
+        low = 3,
+        high = 161,
+        output_dir = "output/the-first-hunter/",
         base_url = "https://boxnovel.com/novel/the-first-hunter/"
     }
 
     case isInputInvalid inputs of
         Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)
-        Nothing -> putStrLn "No input errors"
-{--
-            scrapeMain  [1..1] 
-                "output/the-kings-avatar/" 
-                "https://boxnovel.com/novel/the-kings-avatar/"
+        Nothing -> 
+            scrapeMain [(low inputs)..(high inputs)] 
+                (output_dir inputs) 
+                (base_url inputs)
                 parseBoxnovel
+{--
+            testParsing 
+                "/home/hanbinsock/programman/haskell/web-scraper/output/the-first-hunter/index.html"
+                "test.txt"
+
 --}
