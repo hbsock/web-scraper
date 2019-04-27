@@ -1,8 +1,12 @@
+{-# LANGUAGE DeriveDataTypeable #-}
+
 module CmdParser
     (
         Inputs (..),
         InputError,
-        isInputInvalid
+        isInputInvalid,
+        defaultInputs,
+        getInputsFromCmdLine
     ) where
 
 
@@ -11,6 +15,7 @@ import Data.Typeable (Typeable)
 import qualified Data.Text as T
 import System.FilePath (isValid)
 import Network.URI (isURI)
+import System.Console.CmdArgs (Data, cmdArgs)
 
 
 data InputError = 
@@ -27,7 +32,7 @@ data Inputs = Inputs {
     output_dir :: FilePath,
     base_url :: String
 
-} deriving (Eq, Ord, Show)
+} deriving (Eq, Ord, Show, Data, Typeable)
 
 
 isInputInvalid :: Inputs -> Maybe InputError
@@ -61,3 +66,17 @@ isBaseURLinvalid url =
     case isURI url of
         True -> Nothing
         False -> Just $ InvalidBaseURL $ T.pack url
+
+
+defaultInputs :: Inputs
+defaultInputs = Inputs {
+        is_complete = False,
+        low = 0,
+        high = 0,
+        output_dir = "",
+        base_url = ""
+    }
+
+
+getInputsFromCmdLine :: IO Inputs
+getInputsFromCmdLine = cmdArgs defaultInputs

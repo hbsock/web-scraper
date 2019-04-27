@@ -2,6 +2,7 @@ module Main where
 
 
 import qualified Data.Text.Lazy.IO as I
+import System.Console.CmdArgs
 import WebScraper (scrapeMain)
 import Parser
 import CmdParser
@@ -16,13 +17,16 @@ testParsing inputFile outputFile = do
 
 main :: IO ()
 main = do
-    let inputs = Inputs {
+    let other_inputs = Inputs {
         is_complete = True,
         low = 1,
         high = 1315,
         output_dir = "output/a-will-eternal/",
         base_url = "https://boxnovel.com/novel/a-will-eternal/"
     }
+
+    inputs <- cmdArgs defaultInputs
+    print inputs
 
     case isInputInvalid inputs of
         Just err -> putStrLn ("Invalid input!\n\n\t" <> show err)

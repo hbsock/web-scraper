@@ -29,6 +29,7 @@ dependencies:
 - directory
 - filepath
 - network-uri
+- cmdargs
 
 library:
   source-dirs: src
