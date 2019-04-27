@@ -33,8 +33,6 @@ main = do
         Just err -> putStrLn ("Invalid input!\n\n" <> 
             show err <> "\n" <> show inputs)
         Nothing -> 
-            print inputs
-{--
             scrapeMain 
                 (is_complete inputs)
                 (low inputs)
@@ -42,4 +40,3 @@ main = do
                 (output_dir inputs) 
                 (base_url inputs)
                 parseBoxnovel
---}
