@@ -20,7 +20,7 @@ scrapeNovel url output_file parse_func = do
     I.writeFile output_file $ parsed_contents
 
 
-scrapeMain :: [Int] -> FilePath -> FilePath -> (T.Text -> T.Text) -> IO ()
+scrapeMain :: [Int] -> FilePath -> String -> (T.Text -> T.Text) -> IO ()
 scrapeMain chap_nums output_dir base_url parse_func = do
 
     let chap_strs = map (\n -> "chapter-" ++ (show n)) chap_nums

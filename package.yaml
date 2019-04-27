@@ -28,6 +28,7 @@ dependencies:
 - random
 - directory
 - filepath
+- network-uri
 
 library:
   source-dirs: src
