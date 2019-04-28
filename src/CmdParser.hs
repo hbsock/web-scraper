@@ -71,7 +71,7 @@ isBaseURLinvalid url =
 defaultInputs :: Inputs
 defaultInputs = Inputs {
         is_complete = False,
-        low = 0,
+        low = 1,
         high = 0,
         output_dir = "",
         base_url = ""
