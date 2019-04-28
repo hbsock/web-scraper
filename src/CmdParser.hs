@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module CmdParser
     (
@@ -44,12 +45,14 @@ isInputInvalid inputs =
 
 isNumberRangeInvalid :: Int -> Int -> Maybe InputError
 isNumberRangeInvalid low high =
-    case compare low high of
-        LT -> Nothing
-        EQ -> Nothing
-        GT -> Just $ InvalidNumberRange $ T.pack $ 
-            "The lower number" <> (show low) <> 
-            "is higher than the high number" <> (show high)
+    case low < 0 || high < 0 of
+        True -> Just $ InvalidNumberRange "At least one of low or high is a negative number. Please only use natural numbers."
+        False -> case compare low high of
+            LT -> Nothing
+            EQ -> Nothing
+            GT -> Just $ InvalidNumberRange $ T.pack $ 
+                "The lower number " <> (show low) <> 
+                "is higher than the high number " <> (show high)
         
 
 isOutputDirPathInvalid :: FilePath -> Maybe InputError
