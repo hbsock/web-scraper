@@ -14,8 +14,7 @@ import System.Directory (createDirectoryIfMissing)
 
 scrapeAndParseURL :: String -> String -> (T.Text -> T.Text) -> IO ()
 scrapeAndParseURL url output_file parse_func = do
-    contents <- getWebsiteWithDelay url
-    let parsed_contents = parse_func $ decodeUtf8 contents
+    parsed_contents <- parse_func . decodeUtf8 <$> getWebsiteWithDelay url
     
     putStrLn $ "Writing file: " ++ output_file
     I.writeFile output_file $ parsed_contents
