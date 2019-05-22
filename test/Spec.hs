@@ -1,2 +1,8 @@
+import Test.QuickCheck
+
+prop_reverse :: [Int] -> Bool
+prop_reverse xs = reverse (reverse xs) == xs
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = do
+    quickCheck prop_reverse

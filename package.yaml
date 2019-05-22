@@ -30,6 +30,7 @@ dependencies:
 - filepath
 - network-uri
 - cmdargs
+- QuickCheck
 
 library:
   source-dirs: src
