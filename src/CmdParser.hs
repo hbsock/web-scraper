@@ -18,6 +18,8 @@ import System.FilePath (isValid)
 import Network.URI (isURI)
 import System.Console.CmdArgs
 
+import Test.QuickCheck (Arbitrary)
+
 
 data InputError = 
     InvalidNumberRange !T.Text 

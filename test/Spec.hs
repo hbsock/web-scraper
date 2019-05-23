@@ -1,8 +1,16 @@
 import Test.QuickCheck
+import CmdParser (isInputInvalid, Inputs (..))
 
-prop_reverse :: [Int] -> Bool
-prop_reverse xs = reverse (reverse xs) == xs
+instance Arbitrary Inputs where
+    arbitrary = Inputs <$> arbitrary 
+        <*> arbitrary
+        <*> arbitrary
+        <*> arbitrary
+        <*> arbitrary
+
+prop_input :: Inputs -> Bool
+prop_input input = True
 
 main :: IO ()
 main = do
-    quickCheck prop_reverse
+    quickCheck $ prop_input
